@@ -36,4 +36,13 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+    public function logout(Request $request)
+    {
+        $this->guard()->logout();
+        //bỏ dòng này để có thể đơn lẻ đăng xuất cho từng đối tượng
+        // $request->session()->invalidate();
+
+        return $this->loggedOut($request) ?: redirect('login');
+    }
+
 }
