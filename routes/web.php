@@ -11,6 +11,7 @@
 |
 */
 
+
 Route::get('/', function () {
     return view('users.listproducts');
 });
@@ -21,12 +22,6 @@ Auth::routes();
 Route::middleware('auth')->group( function (){
 	Route::get('/home','HomeController@index');
 });
-// Route::get('login', 'AdminAuth\AdminLoginController@showLoginForm')->name('admin.login');
-// Route::post('login', 'AdminAuth\AdminLoginController@login')->name('admin.auth');
-// Route::post('logout', 'AdminAuth\AdminLoginController@logout')->name('admin.logout');
-
-// Route::get('register', 'AdminAuth\AdminRegisterController@showRegistrationForm')->name('admin.register');
-// Route::post('register', 'AdminAuth\AdminRegisterController@register')->name('admin.signup');
 Route::prefix('admin')->group(function(){
 	Route::get('login', 'AdminAuth\AdminLoginController@showLoginForm')->name('admin.login');
 	Route::post('login', 'AdminAuth\AdminLoginController@login')->name('admin.auth');
@@ -39,3 +34,9 @@ Route::prefix('admin')->group(function(){
 		});		
 	});
 });
+Route::get('/cart','CartController@index');
+Route::get('/cart/add/{id}','CartController@add');
+Route::get('/cart/update','CartController@update');
+Route::get('/cart/delete','CartController@delete');
+Route::get('/products/{slug}','ProductController@detail');
+Route::get('/categories/{slug}','CategoryController@findCategory');
