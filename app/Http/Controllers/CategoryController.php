@@ -81,9 +81,7 @@ class CategoryController extends Controller
     {
         //
     }
-    public function products(){
-        return $this->hasMany('App\Product');
-    }
+    
     public function findCategory($slug){
         $category=Category::where('slug','=',$slug)->first();
         return view('users.showcategories',['category'=>$category]);
