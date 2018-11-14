@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
+use App\Product;
 class ProductController extends Controller
 {
     /**
@@ -84,5 +84,24 @@ class ProductController extends Controller
     public function detail($slug){
         $product=\App\Product::where('slug','=',$slug)->first();
         return view('users.detailproduct',['product'=>$product]);
+    }
+    public function search(Request $request){
+        $category= $request->categories;
+        $key=$request->key;
+        if ($category==0) {
+            $products=Product::where('name','like','%'.$key.'%')
+            ->orwhere('description','like','%'.$key.'%')
+            ->paginate(12);
+            return view('users.searchs',['products'=>$products, 'key' => $key]);
+        }else {
+            $products=Product::where('category_id','=',$category)
+            ->where(function ($query) {
+                $query->where('name','like','%'.$key.'%')
+                      ->orWhere('description','like','%'.$key.'%');
+            })
+            ->paginate(12);
+            dd($products);
+            return view('users.searchs',['products'=>$products, 'key' => $key]);
+        }
     }
 }

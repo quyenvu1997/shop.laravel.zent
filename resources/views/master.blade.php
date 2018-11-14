@@ -39,75 +39,86 @@
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
 
-</head>
+	</head>
 
-<body>
-	<!-- HEADER -->
-	<header>
-		<!-- header -->
-		<div id="header">
-			<div class="container">
-				<div class="pull-left">
-					<!-- Logo -->
-					<div class="header-logo">
-						<a class="logo" href="#">
-							<img src="{{ asset('user/img/logo.png')}}" alt="">
-						</a>
-					</div>
-					<!-- /Logo -->
+	<body>
+		<!-- HEADER -->
+		<header>
+			<!-- header -->
+			<div id="header">
+				<div class="container">
+					<div class="pull-left">
+						<!-- Logo -->
+						<div class="header-logo">
+							<a class="logo" href="#">
+								<img src="{{ asset('user/img/logo.png')}}" alt="">
+							</a>
+						</div>
+						<!-- /Logo -->
 
-					<!-- Search -->
-					<div class="header-search">
-						<form>
-							<input class="input search-input" type="text" placeholder="Enter your keyword">
-							<select class="input search-categories">
-								<option value="0">All Categories</option>
-								@foreach ($categories as $category)
+						<!-- Search -->
+						<div class="header-search">
+							<form action="/search" method="GET">
+								<input class="input search-input" type="text" placeholder="Enter your keyword" name="key">
+								<select class="input search-categories" name="categories">
+									<option value="0">All Categories</option>
+									@foreach ($categories as $category)
 									<option value="{{$category->id}}">{{$category->name}}</option>
-								@endforeach
-							</select>
-							<button class="search-btn"><i class="fa fa-search"></i></button>
-						</form>
+									@endforeach
+								</select>
+								<button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+							</form>
+						</div>
+						<!-- /Search -->
 					</div>
-					<!-- /Search -->
-				</div>
-				<div class="pull-right">
-					<ul class="header-btns">
-						<!-- Account -->
-						<li class="header-account dropdown default-dropdown">
-							<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
-								<div class="header-btns-icon">
-									<i class="fa fa-user-o"></i>
+					<div class="pull-right">
+						<ul class="header-btns">
+							@guest
+							<li class="header-account dropdown default-dropdown">
+								<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+									<div class="header-btns-icon">
+										<i class="fa fa-user-o"></i>
+									</div>
+									<strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
 								</div>
-								<strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
-							</div>
-							<a href="{{ asset('login') }}" class="text-uppercase">Login</a>{{--  / <a href="#" class="text-uppercase">Join</a>
-							<ul class="custom-menu">
-								<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-								<li><a href="#"><i class="fa fa-heart-o"></i> My Wishlist</a></li>
-								<li><a href="#"><i class="fa fa-exchange"></i> Compare</a></li>
-								<li><a href="#"><i class="fa fa-check"></i> Checkout</a></li>
-								<li><a href="{{ asset('login') }}"><i class="fa fa-unlock-alt"></i> Login</a></li>
-								<li><a href="#"><i class="fa fa-user-plus"></i> Create An Account</a></li>
-							</ul> --}}
-						</li>
-						<!-- /Account -->
-
+								<ul class="custom-menu">
+									<li><a href="{{ asset('login') }}"><i class="fa fa-unlock-alt"></i>Login</a></li>
+									<li><a href="{{ asset('register') }}"><i class="fa fa-user-plus"></i> Create An Account</a></a></li>
+									<li><a href="{{ asset('/cart') }}"><i class="fa fa-check"></i> Checkout</a></li>
+								</ul>
+							</li>
+							@else
+							<li class="header-account dropdown default-dropdown">
+								<div class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="true">
+									<div class="header-btns-icon">
+										<i class="fa fa-user-o"></i>
+									</div>
+									<strong class="text-uppercase">{{ Auth::user()->name }} <i class="fa fa-caret-down"></i></strong>
+								</div>
+								{{-- <a href="#" class="text-uppercase">Login</a> / <a href="#" class="text-uppercase">Join</a> --}}
+								<ul class="custom-menu">
+									<li><a href="{{ asset('logout') }}"  onclick="event.preventDefault();
+									document.getElementById('logout-form').submit();"><i class="fa fa-unlock-alt"></i>Logout</a></li>
+									<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+										@csrf
+									</form>
+							</ul>
+                            @endguest
 						<!-- Cart -->
 						<li class="header-cart dropdown default-dropdown">
 							<a href="{{ asset('/cart') }}">
 								<div class="header-btns-icon">
 									<i class="fa fa-shopping-cart"></i>
 									
-										@if (Cart::count()!=0)
-											<span class="qty">{{Cart::count()}}</span>
-										@endif
+									@if (Cart::count()!=0)
+									<span class="qty" id="qty-cart">{{Cart::count()}}</span>
+									@endif
 									
 								</div>
 								<strong class="text-uppercase">My Cart:</strong>
 								<br>
 								@if (Cart::count()!=0)
-									<span >{{Cart::subtotal()}}</span>
+								<span id="total-cart">{{Cart::subtotal()}}</span>
 								@endif
 								{{-- <span>35.20$</span> --}}
 							</a>
@@ -138,7 +149,7 @@
 					<span class="category-header">Categories <i class="fa fa-list"></i></span>
 					<ul class="category-list">
 						@foreach ($categories as $category)
-							<li><a href="{{ asset('categories') }}/{{$category->slug}}">{{$category->name}}</a></li>
+						<li><a href="{{ asset('categories') }}/{{$category->slug}}">{{$category->name}}</a></li>
 						@endforeach
 					</ul>
 				</div>
@@ -150,7 +161,7 @@
 					<ul class="menu-list">
 						<li><a href="{{ asset('') }}">Home</a></li>
 						@foreach ($categories as $category)
-							<li><a href="{{ asset('categories') }}/{{$category->slug}}">{{$category->name}}</a></li>
+						<li><a href="{{ asset('categories') }}/{{$category->slug}}">{{$category->name}}</a></li>
 						@endforeach
 					</ul>
 				</div>
@@ -192,8 +203,8 @@
 						<!-- footer logo -->
 						<div class="footer-logo">
 							<a class="logo" href="#">
-		            <img src="{{ asset('user/img/logo.png')}}" alt="">
-		          </a>
+								<img src="{{ asset('user/img/logo.png')}}" alt="">
+							</a>
 						</div>
 						<!-- /footer logo -->
 

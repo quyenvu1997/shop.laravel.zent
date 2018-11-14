@@ -3,8 +3,8 @@
 {{-- expr --}}
 <div class="container">
 	
-<div class="row">
-	@foreach ($products as $product)
+
+@foreach ($products as $product)
 
 	<div class="col-md-4 col-sm-6 col-xs-6">
 		<div class="product product-single">
@@ -16,7 +16,7 @@
 				{{-- <button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button> --}}
 				<img src="{{$product->images->first()['link']}}" alt="" height="250px">
 			</div>
-			<div class="product-body" >
+			<div class="product-body">
 				<h3 class="product-price">{{number_format($product->price_sales)}} <del class="product-old-price">{{number_format($product->price)}}</del></h3>
 				<div class="product-rating">
 					<i class="fa fa-star"></i>
@@ -25,7 +25,7 @@
 					<i class="fa fa-star"></i>
 					<i class="fa fa-star-o empty"></i>
 				</div>
-				<h2 class="product-name" style="height: 50px !important;"><a href="{{ asset('products/') }}/{{$product->slug}}" >{{$product->name}}</a></h2>
+				<h2 class="product-name"><a href="#">{{$product->name}}</a></h2>
 				<div class="product-btns">
 					<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
 					<button class="main-btn icon-btn"><i class="fa fa-exchange"></i></button>
@@ -35,20 +35,7 @@
 			</div>
 		</div>
 	</div>
-	@endforeach
-</div>
-<div class="navigation">
-		
-	
-	@if ($products->currentPage()!=1)
-	<a href="{{$products->previousPageUrl()}}" class="prev primary-btn float-left"><i class="icon-arrow-left8"></i> Previous Posts</a>
-	@endif
+@endforeach
 
-	@if ($products->hasMorePages())
-	<a href="{{$products->nextPageUrl()}}" class="next primary-btn float-right">Next Posts <i class="icon-arrow-right8"></i></a>
-	@endif
-	{{-- <a href="{{$posts->nextPageUrl()}}" class="next">Next Posts <i class="icon-arrow-right8"></i></a> --}}
-	<div class="clearfix"></div>
-</div>
 </div>
 @endsection

@@ -15,7 +15,7 @@
 				</div>
 				<a href="{{ asset('products/') }}/{{$product->slug}}" title=""class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</a>
 				{{-- <button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button> --}}
-				<img src="{{$product->images->first()['link']}}" alt="">
+				<img src="{{$product->images->first()['link']}}" alt="" height="250px">
 			</div>
 			<div class="product-body">
 				<h3 class="product-price">{{number_format($product->price_sales)}} <del class="product-old-price">{{number_format($product->price)}}</del></h3>

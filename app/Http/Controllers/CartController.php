@@ -76,10 +76,24 @@ class CartController extends Controller
         $status=request()->status;
         $product=Cart::get($rowId);
         $number=$product->qty;
+        if ($number==1&&$status=='-1') {
+            Cart::remove($rowId);
+            return response()->json([
+                'delete'=>'true',
+                'subtotal'=>Cart::subtotal(),
+                'qty_cart'=>Cart::count(),
+
+            ]);
+        }
+        // $kho=Product::find($id)
+        // if ($number==1&&$status=='-1') {
+        //     # code...
+        // }
         Cart::update($rowId,$number+$status);
         return response()->json([
             'rowId'=>Cart::get($rowId),
             'subtotal'=>Cart::subtotal(),
+            'qty_cart'=>Cart::count(),
         ]);
     }
 
@@ -96,6 +110,9 @@ class CartController extends Controller
     public function delete(Request $request){
         $rowId=request()->rowId;
         Cart::remove($rowId);
-        return response()->json(Cart::subtotal());
+        return response()->json([
+            'subtotal'=>Cart::subtotal(),
+            'qty_cart'=>Cart::count(),
+        ]);
     }
 }

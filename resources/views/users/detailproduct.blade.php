@@ -9,14 +9,14 @@
 				<div id="product-main-view">
 					@foreach ($product->images as $image)
 						<div class="product-view">
-						<img src="{{$image->link}}" alt="">
+						<img src="{{$image->link}}" alt="" height="450px" width="100%">
 					</div>
 					@endforeach
 				</div>
 				<div id="product-view">
 					@foreach ($product->images as $image)
 						<div class="product-view">
-						<img src="{{$image->link}}" alt="">
+						<img src="{{$image->link}}" alt="" height="150px">
 					</div>
 					@endforeach
 				</div>
@@ -36,27 +36,10 @@
 							<i class="fa fa-star"></i>
 							<i class="fa fa-star-o empty"></i>
 						</div>
-						<a href="#">3 Review(s) / Add Review</a>
 					</div>
 					<p><strong>Availability:</strong> In Stock</p>
 					<p><strong>Brand:</strong> E-SHOP</p>
 					<p>{{$product->description}}</p>
-					{{-- <div class="product-options">
-						<ul class="size-option">
-							<li><span class="text-uppercase">Size:</span></li>
-							<li class="active"><a href="#">S</a></li>
-							<li><a href="#">XL</a></li>
-							<li><a href="#">SL</a></li>
-						</ul>
-						<ul class="color-option">
-							<li><span class="text-uppercase">Color:</span></li>
-							<li class="active"><a href="#" style="background-color:#475984;"></a></li>
-							<li><a href="#" style="background-color:#8A2454;"></a></li>
-							<li><a href="#" style="background-color:#BF6989;"></a></li>
-							<li><a href="#" style="background-color:#9A54D8;"></a></li>
-						</ul>
-					</div> --}}
-
 					<div class="product-btns">
 						<div class="qty-input">
 							<span class="text-uppercase">QTY: </span>
@@ -76,14 +59,14 @@
 				<div class="product-tab">
 					<ul class="tab-nav">
 						<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-						<li><a data-toggle="tab" href="#tab1">Details</a></li>
-						<li><a data-toggle="tab" href="#tab2">Reviews (3)</a></li>
+						<li><a data-toggle="tab" href="#tab2">Details</a></li>
+						{{-- <li><a data-toggle="tab" href="#tab2">Reviews (3)</a></li> --}}
 					</ul>
 					<div class="tab-content">
 						<div id="tab1" class="tab-pane fade in active">
 							<p>{{$product->description}}</p>
 						</div>
-						<div id="tab2" class="tab-pane fade in">
+						{{-- <div id="tab2" class="tab-pane fade in">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="product-reviews">
@@ -177,6 +160,56 @@
 										<button class="primary-btn">Submit</button>
 									</form>
 								</div>
+							</div>
+						</div> --}}
+						<div id="tab2" class="tab-pane fade in">
+							<div class="row">
+								<div class="col-md-6">
+									<img src="{{$product->images->first()['link']}}" alt="" width="80%" height="300px">
+								</div>
+								<div class="col-md-6">
+									<h2>THÔNG SỐ KĨ THUẬT</h2>
+									<table class="table table-hover">
+										
+										<tbody>
+											@foreach ($product->attributes as $attribute)
+												<tr>
+													<td>{{$attribute->name}}</td>
+													<td>{{$attribute->pivot->value}}</td>
+												</tr>
+											@endforeach
+											
+										</tbody>
+									</table>
+								</div>
+								{{-- <div class="col-md-6">
+									<h4 class="text-uppercase">Write Your Review</h4>
+									<p>Your email address will not be published.</p>
+									<form class="review-form">
+										<div class="form-group">
+											<input class="input" type="text" placeholder="Your Name" />
+										</div>
+										<div class="form-group">
+											<input class="input" type="email" placeholder="Email Address" />
+										</div>
+										<div class="form-group">
+											<textarea class="input" placeholder="Your review"></textarea>
+										</div>
+										<div class="form-group">
+											<div class="input-rating">
+												<strong class="text-uppercase">Your Rating: </strong>
+												<div class="stars">
+													<input type="radio" id="star5" name="rating" value="5" /><label for="star5"></label>
+													<input type="radio" id="star4" name="rating" value="4" /><label for="star4"></label>
+													<input type="radio" id="star3" name="rating" value="3" /><label for="star3"></label>
+													<input type="radio" id="star2" name="rating" value="2" /><label for="star2"></label>
+													<input type="radio" id="star1" name="rating" value="1" /><label for="star1"></label>
+												</div>
+											</div>
+										</div>
+										<button class="primary-btn">Submit</button>
+									</form>
+								</div> --}}
 							</div>
 						</div>
 					</div>

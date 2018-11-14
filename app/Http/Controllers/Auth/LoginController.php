@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Http\Controllers\Auth\Request;
 
 class LoginController extends Controller
 {
@@ -25,7 +26,7 @@ class LoginController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -36,13 +37,17 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
-    public function logout(Request $request)
-    {
-        $this->guard()->logout();
-        //bỏ dòng này để có thể đơn lẻ đăng xuất cho từng đối tượng
-        // $request->session()->invalidate();
+    // public function logout(Request $request)
+    // {
+    //     $this->guard()->logout();
+    //     //bỏ dòng này để có thể đơn lẻ đăng xuất cho từng đối tượng
+    //     // $request->session()->invalidate();
 
-        return $this->loggedOut($request) ?: redirect('login');
+    //     return $this->loggedOut($request) ?: redirect('login');
+    // }
+    protected function loggedOut($request)
+    {
+        return redirect('/');
     }
 
 }

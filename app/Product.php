@@ -13,4 +13,7 @@ class Product extends Model
     {
         return $this->hasMany('App\ProductImage');
     }
+    public function attributes(){
+    	return $this->belongsToMany('App\Attribute', 'values', 'product_id', 'attribute_id')->withPivot('value');
+    }
 }
