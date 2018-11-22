@@ -41,11 +41,11 @@
 					<p><strong>Brand:</strong> E-SHOP</p>
 					<p>{{$product->description}}</p>
 					<div class="product-btns">
-						<div class="qty-input">
+						{{-- <div class="qty-input">
 							<span class="text-uppercase">QTY: </span>
 							<input class="input" type="number">
-						</div>
-						<a href="{{ asset('cart/add/') }}/{{$product->id}}" class="primary-btn add-to-cart" ><i class="fa fa-shopping-cart"></i> Add to Cart</a>
+						</div> --}}
+						<button class="primary-btn add-to-cart" data-id='{{$product->id}}'><i class="fa fa-shopping-cart"></i> Add to Cart</button>
 						{{-- <button class="primary-btn add-to-cart"><i class="fa fa-shopping-cart"></i> Add to Cart</button> --}}
 						{{-- <div class="pull-right">
 							<button class="main-btn icon-btn"><i class="fa fa-heart"></i></button>
@@ -220,4 +220,24 @@
 		<!-- /Product Details -->
 	</div>
 </div>
+<script type="text/javascript">
+    $.ajaxSetup({
+        headers: {
+        	'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $(function(){
+        $('.add-to-cart').click(function(){
+        	var id=$(this).attr('data-id')
+        	$.ajax({
+        		type:'get',
+        		url:'/cart/add/'+id,
+        		success:function(response){
+                    $('#qty-cart').text(response.qty_cart);
+                    $('#total-cart').text(response.subtotal);
+        		}
+        	})
+        })       
+    });
+</script>
 @endsection

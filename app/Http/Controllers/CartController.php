@@ -27,7 +27,10 @@ class CartController extends Controller
     {
         $product=Product::find($id);
         Cart::add($id,$product->name,1,isset($product->price_sales)?$product->price_sales:$product->price);
-        return redirect('cart');
+        return response()->json([
+            'subtotal'=>Cart::subtotal(),
+            'qty_cart'=>Cart::count(),
+        ]);
     }
 
     /**
@@ -114,5 +117,8 @@ class CartController extends Controller
             'subtotal'=>Cart::subtotal(),
             'qty_cart'=>Cart::count(),
         ]);
+    }
+    public function checkout(){
+        return view('users.checkout');
     }
 }

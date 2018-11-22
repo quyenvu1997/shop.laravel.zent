@@ -84,7 +84,7 @@
 								<ul class="custom-menu">
 									<li><a href="{{ asset('login') }}"><i class="fa fa-unlock-alt"></i>Login</a></li>
 									<li><a href="{{ asset('register') }}"><i class="fa fa-user-plus"></i> Create An Account</a></a></li>
-									<li><a href="{{ asset('/cart') }}"><i class="fa fa-check"></i> Checkout</a></li>
+									<li><a href="{{ asset('/checkout') }}"><i class="fa fa-check"></i> Checkout</a></li>
 								</ul>
 							</li>
 							@else
