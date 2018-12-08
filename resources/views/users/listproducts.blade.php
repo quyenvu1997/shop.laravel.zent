@@ -2,7 +2,12 @@
 @section('content')
 {{-- expr --}}
 <div class="container">
-	
+	{{-- @if (isset($message))
+	<script type="text/javascript">
+		toastr.success($message);
+	</script>
+		
+	@endif --}}
 	<div class="row">
 		@foreach ($products as $product)
 
@@ -62,8 +67,13 @@
         		type:'get',
         		url:'/cart/add/'+id,
         		success:function(response){
-                    $('#qty-cart').text(response.qty_cart);
-                    $('#total-cart').text(response.subtotal);
+        			if (response.message!=null) {
+        				toastr.error(response.message);
+        			}else{
+        				$('#qty-cart').text(response.qty_cart);
+                    	$('#total-cart').text(response.subtotal);
+        			}
+                    
         		}
         	})
         })       

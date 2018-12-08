@@ -26,11 +26,17 @@ class CartController extends Controller
     public function add($id)
     {
         $product=Product::find($id);
-        Cart::add($id,$product->name,1,isset($product->price_sales)?$product->price_sales:$product->price);
-        return response()->json([
-            'subtotal'=>Cart::subtotal(),
-            'qty_cart'=>Cart::count(),
-        ]);
+        if ($product->quanlity==0) {
+            return response()->json([
+                'message'=>'Số lượng sản phẩm trong kho không đủ'
+            ]);
+        }else{
+            Cart::add($id,$product->name,1,isset($product->price_sales)?$product->price_sales:$product->price);
+            return response()->json([
+                'subtotal'=>Cart::subtotal(),
+                'qty_cart'=>Cart::count(),
+            ]);
+        }
     }
 
     /**
@@ -79,6 +85,7 @@ class CartController extends Controller
         $status=request()->status;
         $product=Cart::get($rowId);
         $number=$product->qty;
+        $quanlity=Product::find($product->id)->quanlity;
         if ($number==1&&$status=='-1') {
             Cart::remove($rowId);
             return response()->json([
@@ -88,10 +95,11 @@ class CartController extends Controller
 
             ]);
         }
-        // $kho=Product::find($id)
-        // if ($number==1&&$status=='-1') {
-        //     # code...
-        // }
+        if ($quanlity==$number&&$status=='+1') {
+            return response()->json([
+                'message'=>'Số lượng sản phẩm trong kho không đủ'
+            ]);
+        }
         Cart::update($rowId,$number+$status);
         return response()->json([
             'rowId'=>Cart::get($rowId),

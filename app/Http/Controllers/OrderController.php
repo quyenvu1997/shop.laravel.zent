@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Order;
 use App\OrderDetail;
 use Cart;
+use Illuminate\Support\Facades\Mail;
+use Yajra\Datatables\Datatables;
+use Auth;
+use App\Product;
 class OrderController extends Controller
 {
     /**
@@ -15,7 +19,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+         return view('admin.order.listorder');
     }
 
     /**
@@ -36,9 +40,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        
         $email=$request->email;
-        // dd( $email.'_'.date('d-m-Y_H:i:s'));
         $order=Order::create([
             'code' =>  $email.'_'.date('d-m-Y_H:i:s'),
             'name' => $request->name,
@@ -50,15 +52,19 @@ class OrderController extends Controller
             'notes' => $request->notes,
         ]);
         foreach (Cart::content() as $product) {
-            // dd($product);
             OrderDetail::create([
                 'order_id' => $order->id,
                 'product_id' =>$product->id,
                 'quanlity' => $product->qty,
+                'price' => $product->price,
             ]);
+            $sp=Product::find($product->id);
+            $sp->quanlity=$sp->quanlity-$product->qty;
+            $sp->save();
         }
         Cart::destroy();
-        return redirect('/');
+        // Mail::to($email)->send(new \App\Mail\Order(3));
+        return redirect('',['message'=>'Đã đặt hàng thành công']);
     }
 
     /**
@@ -69,7 +75,13 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        //
+        // dd(Order::find($id)->products)
+        return response()->json([
+            'order'=>Order::find($id),
+            'status'=>Order::find($id)->status->name,
+            'listsp'=>Order::find($id)->products,
+            // 'attributes'=>order::find($id)->attributes,
+        ]);
     }
 
     /**
@@ -80,7 +92,12 @@ class OrderController extends Controller
      */
     public function edit($id)
     {
-        //
+        return response()->json([
+            'order'=>Order::find($id),
+            'status'=>Order::find($id)->status->id,
+            'listsp'=>Order::find($id)->products,
+            // 'attributes'=>order::find($id)->attributes,
+        ]);
     }
 
     /**
@@ -92,7 +109,14 @@ class OrderController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $order=Order::find($id);
+        $order->status_id=$request->status;
+        $order->save();
+        return response()->json([
+            'order' => $order,
+            'status' =>$order->status->name,
+        ]);
+        return $order;
     }
 
     /**
@@ -103,6 +127,39 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $rows=OrderDetail::where('order_id','=',$id)->get();
+        foreach ($rows as $row) {
+            $product=Product::find($row->product_id);
+            $product->quanlity=$product->quanlity+$row->quanlity;
+            $product->save();
+            OrderDetail::find($row->id)->delete();
+        }
+        Order::find($id)->delete();
+        return response()->json([
+            'message' => 'Xóa đơn hàng thành công'
+        ]);
+    }
+    public function getdata()
+    {
+        // dd(Product::query());
+        return Datatables::of(Order::query())
+            ->addColumn('action', function ($order) {
+                if ($order->status_id==3) {
+                    return '<button type="" class="btn btn-sm btn-info fa fa-eye" data-toggle="modal" href="#modal-show" data-id="'.$order->id.'" id="'.$order->id.'"></button>';
+                }else{
+                    return '<button type="" class="btn btn-sm btn-info fa fa-eye" data-toggle="modal" href="#modal-show" data-id="'.$order->id.'" id="'.$order->id.'"></button>
+                <button type="" class="btn btn-sm btn-warning fa fa-edit text-white" data-toggle="modal" href="#modal-edit" data-id="'.$order->id.'"></button> 
+                <button data_id="'.$order->id.'" class="btn btn-danger fa fa-trash-alt xoa"></button>';
+                }
+                
+            })
+            ->addColumn('status', function ($order) {
+                return $order->status->name;
+            })
+            ->make(true);
+    }
+    public function listorder(){
+        $orders=Order::where('user_id','=',Auth::user()->id)->get();
+        return view('users.listorders',['orders'=>$orders]);
     }
 }

@@ -10,7 +10,7 @@
 	<title>E-SHOP HTML Template</title>
 
 	<!-- Google font -->
-	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
+	{{-- <link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet"> --}}
 
 	<!-- Bootstrap -->
 	<link type="text/css" rel="stylesheet" href="{{ asset('user/css/bootstrap.min.css') }}" />
@@ -27,9 +27,11 @@
 
 	<!-- Custom stlylesheet -->
 	<link type="text/css" rel="stylesheet" href="{{ asset('user/css/style.css') }}" />
+	<link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 	<!-- Latest compiled and minified CSS & JS -->
 	{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous"> --}}
 	<script src="//code.jquery.com/jquery.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 	{{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script> --}}
 
 	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -99,6 +101,7 @@
 								<ul class="custom-menu">
 									<li><a href="{{ asset('logout') }}"  onclick="event.preventDefault();
 									document.getElementById('logout-form').submit();"><i class="fa fa-unlock-alt"></i>Logout</a></li>
+									<li><a href="{{ asset('listorders') }}" title=""><i class="fa fa-history"></i>Đơn hàng cũ</a></li>
 									<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
 										@csrf
 									</form>
@@ -110,16 +113,17 @@
 								<div class="header-btns-icon">
 									<i class="fa fa-shopping-cart"></i>
 									
-									@if (Cart::count()!=0)
+									{{-- @if (Cart::count()!=0)
 									<span class="qty" id="qty-cart">{{Cart::count()}}</span>
-									@endif
-									
+									@endif --}}
+									<span class="qty" id="qty-cart">{{Cart::count()}}</span>
 								</div>
 								<strong class="text-uppercase">My Cart:</strong>
 								<br>
-								@if (Cart::count()!=0)
+								{{-- @if (Cart::count()!=0)
 								<span id="total-cart">{{Cart::subtotal()}}</span>
-								@endif
+								@endif --}}
+								<span id="total-cart">{{Cart::subtotal()}}</span>
 								{{-- <span>35.20$</span> --}}
 							</a>
 						</li>

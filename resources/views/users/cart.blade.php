@@ -69,27 +69,25 @@
               type:'get',
               url:'/cart/update?rowid='+rowId+'&status='+status,
               success:function(response){
-                if (response.delete=='true') {
-                    btn.parents('tr').remove();
-                    $('.sub-total').text(response.subtotal);
-
-                    if (response.qty_cart==0) {
-                        $('#qty-cart').remove();
+                
+                if (response.message!=null) {
+                    toastr.error(response.message);
+                }else {
+                    if (response.delete=='true') {
+                        btn.parents('tr').remove();
+                        $('.sub-total').text(response.subtotal);
+                        $('#qty-cart').text(response.qty_cart);
+                        $('#total-cart').text(response.subtotal);
                     }
+                    $('#qty-'+rowId).text(response.rowId.qty);
+                    $('#total-'+rowId).text((response.rowId.qty*response.rowId.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
+                    $('.sub-total').text(response.subtotal);
                     $('#qty-cart').text(response.qty_cart);
                     $('#total-cart').text(response.subtotal);
+                    }
+                
                 }
-                $('#qty-'+rowId).text(response.rowId.qty);
-                $('#total-'+rowId).text((response.rowId.qty*response.rowId.price).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ","));
-                $('.sub-total').text(response.subtotal);
-                if (response.qty_cart==0) {
-                    $('#qty-cart').remove();
-                    $('#total-cart').remove();
-                }
-                $('#qty-cart').text(response.qty_cart);
-                $('#total-cart').text(response.subtotal);
-            }
-        })
+            })
         })
         $('.xoa').click(function(){
             var btn = $(this);
@@ -110,10 +108,6 @@
                         //toastr.success(response.message)
                         btn.parents('tr').remove();
                         $('.sub-total').text(response.subtotal);
-                        if (response.qty_cart==0) {
-                            $('#qty-cart').remove();
-                            $('#total-cart').remove();
-                        }
                         $('#qty-cart').text(response.qty_cart);
                         $('#total-cart').text(response.subtotal);
                     }

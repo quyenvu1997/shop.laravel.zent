@@ -38,7 +38,7 @@
 			</span>
 			@endif
 
-			<label for="username" class="login__label">{{ __('username') }}</label>
+			{{-- <label for="username" class="login__label">{{ __('username') }}</label>
 
                             <div class="col-md-6">
                                 <input id="username" type="text" class="login__input form-control{{ $errors->has('username') ? ' is-invalid' : '' }}" name="username" value="{{ old('username') }}" required>
@@ -48,7 +48,7 @@
                                         <strong>{{ $errors->first('username') }}</strong>
                                     </span>
                                 @endif
-
+ --}}
 			<label for="password" class="login__label">
 				{{ __('Password') }}
 			</label>

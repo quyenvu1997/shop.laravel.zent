@@ -8,6 +8,8 @@ use App\Product;
 use App\Category;
 use App\PayMent;
 use App\Status;
+use App\Attribute;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -21,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
         View::share('categories',Category::all());
         View::share('payments',PayMent::all());
         View::share('statuses',Status::all());
+        View::share('attributes',Attribute::all());
     }
 
     /**

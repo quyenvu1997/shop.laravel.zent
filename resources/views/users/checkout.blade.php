@@ -19,7 +19,11 @@
 				</div> --}}
 				<div class="col-12 mb-3" style="padding: 10px 0px;">
 					<label for="name">Name</label>
-					<input type="text" class="form-control" id="name" value="" name="name">
+					@if (Auth::check())
+						<input type="text" class="form-control" id="name" value="{{ Auth::user()->name }}" name="name">
+						@else
+						<input type="text" class="form-control" id="name" value="" name="name">
+					@endif
 				</div>
 				<div class="col-12 mb-3" style="padding: 10px 0px;">
 					<label for="phone_number">Mobile <span>*</span></label>
@@ -31,7 +35,12 @@
 				</div>
 				<div class="col-12 mb-4" style="padding: 10px 0px;">
 					<label for="email_address">Email <span>*</span></label>
-					<input type="email" class="form-control" id="email_address" value="" name="email">
+					@if (Auth::check())
+						<input type="email" class="form-control" id="email_address" value="{{ Auth::user()->email }}" name="email">
+						@else
+						<input type="email" class="form-control" id="email_address" value="" name="email">
+					@endif
+					
 				</div>
 				<div class="col-12 mb-4" style="padding: 10px 0px;">
 					<label>Notes <span>*</span></label>
@@ -55,7 +64,6 @@
 
 		<div class="col-12 col-md-6 col-lg-5 ml-lg-auto">
 			<div class="border"  style="font-size: 20px;">
-
 				<div class="cart-page-heading">
 					<h1>Your Order</h1>
 					<p>The Details</p>
