@@ -27,11 +27,21 @@
 				</div>
 				<div class="col-12 mb-3" style="padding: 10px 0px;">
 					<label for="phone_number">Mobile <span>*</span></label>
-					<input type="number" class="form-control" id="mobile" value="" name="mobile">
+					@if (Auth::check())
+						<input type="number" class="form-control" id="mobile" value="{{ Auth::user()->mobile }}" name="mobile">
+						@else
+						<input type="number" class="form-control" id="mobile" value="" name="mobile">
+					@endif
+					
 				</div>
 				<div class="col-12 mb-3" style="padding: 10px 0px;">
 					<label for="street_address">Address <span>*</span></label>
-					<input type="text" class="form-control mb-3" id="address" value="" name="address">
+					@if (Auth::check())
+						<input type="text" class="form-control" id="address" value="{{ Auth::user()->address }}" name="address">
+						@else
+						<input type="text" class="form-control mb-3" id="address" value="" name="address">
+					@endif
+					
 				</div>
 				<div class="col-12 mb-4" style="padding: 10px 0px;">
 					<label for="email_address">Email <span>*</span></label>

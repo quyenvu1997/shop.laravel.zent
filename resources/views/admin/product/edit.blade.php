@@ -28,7 +28,7 @@
 			<div class="form-group">
 				<label for=""><h5>Image</h5></label>
 				<br>
-				<input type="file" name="" value="" placeholder="">
+				<input type="file" name="images[]" value="" placeholder="" multiple="multiple">
 			</div>
 			<div class="form-group">
 				<label for=""><h5>Categories</h5></label>

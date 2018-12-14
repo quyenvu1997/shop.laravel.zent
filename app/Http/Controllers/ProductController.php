@@ -7,6 +7,7 @@ use App\Product;
 use App\Attribute;
 use App\Value;
 use Yajra\Datatables\Datatables;
+use App\ProductImage;
 class ProductController extends Controller
 {
     /**
@@ -38,6 +39,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $name=$request->name;
+
         $slug=implode("-", explode(" ",implode("-", explode("/",$name))));
         $product=Product::create([
             'name'=>$request->name,
@@ -48,6 +50,16 @@ class ProductController extends Controller
             'category_id'=>$request->categories,
             'slug'=>$slug,
         ]);
+        if (isset($request->images)) {
+          foreach ($request->images as $image) {
+            $path=$image->store('images');
+            ProductImage::create([
+              'product_id'=>$id,
+                'link'=>$path,
+            ]);
+          }
+        }
+         
         $attributes=Attribute::all();
         foreach ($attributes as $attribute) {
             $att=$attribute->id;
@@ -100,6 +112,16 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)   
     {
+        if (isset($request->images)) {
+          foreach ($request->images as $image) {
+            $path=$image->store('images');
+            ProductImage::create([
+                'product_id'=>$id,
+                'link'=>$path,
+            ]);
+        }
+        }
+        
         $product=Product::updateData($id,$request->all());
         $values=Value::where('product_id',$id)->get();
         foreach ($values as $value) {

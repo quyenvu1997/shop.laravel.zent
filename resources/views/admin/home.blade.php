@@ -88,12 +88,12 @@
 </div>
 <div class="row">
     <div class="col-xl-4 col-sm-6 mb-4">
-        <div class="card o-hidden h-75">
+        <div class="card o-hidden h-100">
             <div class="card-body">
                 <h6>TODAY'S SALES</h6>
                 <div class="mr-5 row">
                     <i class="far fa-chart-bar fa-4x col-4 text-primary"></i>
-                    <span style="font-weight: bolder;font-size: 25px;   line-height: 62px; padding-left: 3.5px;">{{number_format($todaysale)}} VNĐ</span>
+                    <span style="font-weight: bolder;font-size: 25px;   line-height: 62px;">{{number_format($todaysale)}} VNĐ</span>
                 </div>
             </div>
             {{-- <a class="card-footer clearfix small z-1" href="#">
@@ -105,12 +105,12 @@
         </div>
     </div>
     <div class="col-xl-4 col-sm-6 mb-4">
-        <div class="card o-hidden h-75">
+        <div class="card o-hidden h-100">
             <div class="card-body">
                 <h6>THIS WEEK'S SALES</h6>
                 <div class="mr-5 row">
                     <i class="far fa-chart-bar fa-4x col-4 text-warning"></i>
-                    <span style="font-weight: bolder;font-size: 25px;   line-height: 62px; padding-left: 3.5px;">{{number_format($todaysale)}} VNĐ</span>
+                    <span style="font-weight: bolder;font-size: 25px;   line-height: 62px;">{{number_format($todaysale)}} VNĐ</span>
                 </div>
             </div>
             {{-- <a class="card-footer text-white clearfix small z-1" href="#">
@@ -122,12 +122,12 @@
         </div>
     </div>
     <div class="col-xl-4 col-sm-6 mb-4">
-        <div class="card o-hidden h-75">
+        <div class="card o-hidden h-100">
             <div class="card-body">
                 <h6>THIS MOUNTH'S SALES</h6>
                 <div class="mr-5 row">
                     <i class="far fa-chart-bar fa-4x col-4 text-success"></i>
-                    <span style="font-weight: bolder;font-size: 25px;   line-height: 62px; padding-left: 3.5px;">{{number_format($mounthsale)}} VNĐ</span>
+                    <span style="font-weight: bolder;font-size: 25px;   line-height: 62px;">{{number_format($mounthsale)}} VNĐ</span>
                 </div>
             </div>
             {{-- <a class="card-footer text-white clearfix small z-1" href="#">

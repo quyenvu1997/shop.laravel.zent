@@ -40,9 +40,8 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        $email=$request->email;
         $order=Order::create([
-            'code' =>  $email.'_'.date('d-m-Y_H:i:s'),
+            'code' =>  $request->email.'_'.date('d-m-Y_H:i:s'),
             'name' => $request->name,
             'email' => $request->email,
             'mobile' => $request->mobile,
@@ -50,7 +49,9 @@ class OrderController extends Controller
             'payment_id' => $request->payment,
             'status_id' => 5,
             'notes' => $request->notes,
+            'tong_tien'=>0,
         ]);
+        $tong=0;
         foreach (Cart::content() as $product) {
             OrderDetail::create([
                 'order_id' => $order->id,
@@ -61,10 +62,14 @@ class OrderController extends Controller
             $sp=Product::find($product->id);
             $sp->quanlity=$sp->quanlity-$product->qty;
             $sp->save();
+            $tong+=$product->qty*$product->price;
         }
+        $order->tong_tien=$tong;
+        $order->save();
         Cart::destroy();
         // Mail::to($email)->send(new \App\Mail\Order(3));
-        return redirect('',['message'=>'Đã đặt hàng thành công']);
+        return redirect('');
+        // ['message'=>'Đã đặt hàng thành công']
     }
 
     /**
